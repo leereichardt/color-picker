@@ -1,0 +1,26 @@
+{
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "extends": [
+    "plugin:@stencil/recommended"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect",
+      "pragma": "h"
+    }
+  },
+  "rules": {
+    "semi": "error",
+    "no-console": [
+      "error",
+      {
+        "allow": [
+          "warn",
+          "error"
+        ]
+      }
+    ]
+  }
+}

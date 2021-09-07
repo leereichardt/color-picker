@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+.selector__pickr {
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  border-radius: 16px;
+  border: 2px solid #fff;
+  box-sizing: border-box;
+  box-shadow: 0 5px 15px rgba(70, 74, 83, 0.25);
+  cursor: pointer;
+  transition: top 150ms linear, left 150ms linear;
+}
+
+.selector__pickr:active {
+  transition: none;
+}
+
+.color-selector {
+  height: 155px;
+  width: 228px;
+  border-radius: 6px;
+  position: relative;
+}

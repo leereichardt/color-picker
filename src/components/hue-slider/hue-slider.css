@@ -1,0 +1,40 @@
+:host {
+  display: block;
+}
+
+.selector__pickr {
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  border-radius: 16px;
+  border: 2px solid #fff;
+  box-sizing: border-box;
+  box-shadow: 0 5px 15px rgba(70, 74, 83, 0.25);
+  cursor: pointer;
+  transition: left 150ms linear;
+}
+
+.selector__pickr:active {
+  transition: none;
+}
+
+.component-outer {
+  position: relative;
+  height: 8px;
+  width: 228px;
+  cursor: pointer;
+}
+
+.component-selector {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.hue-selector {
+  background: linear-gradient(90deg, #f00 0%, #f57a20 12.78%, #ffd708 25.28%, #61ff00 37.78%, #0ff 50.28%, #0f4ded 62.26%, #640fed 73.72%, #ed0fe4 85.7%, #ed0f87 97.68%);
+}
