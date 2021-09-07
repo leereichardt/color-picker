@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+  <title>Stencil Component Starter</title>
+
+  <link rel="stylesheet" href="https://use.typekit.net/gzi2xus.css">
+  <script type="module" src="/build/color-pickr.esm.js"></script>
+  <script nomodule src="/build/color-pickr.js"></script>
+
+  <style>
+    * {
+      font-family: soleil, arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+<div style="width: 600px; margin: 100px auto 0; display: flex; gap: 50px">
+  <color-pickr color="#46618B" opacity="41"></color-pickr>
+  <div class="color-container">Color: <span class="color"></span></div>
+</div>
+
+<script>
+  const c = document.querySelector('color-pickr');
+  const cText = document.querySelector('.color');
+  const cContainer = document.querySelector('.color-container');
+  c.addEventListener('colorChange', event => {
+    cText.textContent = event.detail.toRGBA().toString();
+    cContainer.style.color = event.detail.toRGBA().toString();
+  });
+  const palettes = [{
+    'label': 'Brand Colors',
+    'palettes': [
+      '#537BDE50',
+      '#5A86F2',
+      '#2C3035',
+      '#748393',
+      '#1B2348',
+      '#EEF3F8',
+      '#C3D5E201',
+      '#59C887',
+      '#51D58D',
+      '#65E399',
+      '#F16564',
+      '#FF616A',
+      '#FF7981CD',
+      '#FABC66',
+      '#FFED00',
+    ]
+  }, {
+    'label': 'Recent Colors',
+    'palettes': [
+      '#FF0000',
+      '#00FF00',
+      '#0000FF',
+      '#FF00FF',
+      '#00FFFF',
+      '#FFFF00',
+    ]
+  }];
+  c.palettes = palettes;
+</script>
+</body>
+</html>
