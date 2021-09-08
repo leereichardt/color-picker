@@ -1,6 +1,6 @@
 function eventListener(method, elements, events, fn, options = {}): [Element, Event, unknown, unknown] { //fixme sort this
   let localElements = elements;
-  if (elements instanceof HTMLCollection || elements instanceof NodeList) {
+  if (Array.isArray(elements)) {
     localElements = Array.from(elements);
   } else if (!Array.isArray(elements)) {
     localElements = [elements];

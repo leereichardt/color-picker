@@ -65,8 +65,16 @@ export class ColorPalette {
       wrapper: this.palette,
     });
 
-    this.sliderOffsetWidth = this.slider.offsetWidth / 2;
-    this.sliderOffsetHeight = this.slider.offsetHeight / 2;
+    if (this.slider !== null) {
+      const offsetWidth = this.slider.offsetWidth;
+      const offsetHeight = this.slider.offsetHeight;
+      if(!isNaN(offsetWidth)) {
+        this.sliderOffsetWidth = offsetWidth / 2;
+      }
+      if(!isNaN(offsetHeight)) {
+        this.sliderOffsetHeight = this.slider.offsetHeight / 2;
+      }
+    }
   }
 
   @Listen('hueChange', { target: "document" })
