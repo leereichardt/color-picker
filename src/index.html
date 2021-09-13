@@ -32,7 +32,6 @@
   const cText = document.querySelector('.color');
   const cContainer = document.querySelector('.color-container');
   c.addEventListener('colorChange', event => {
-    console.log(event.detail);
     cText.textContent = event.detail.toRGBA().toString();
     cContainer.style.color = event.detail.toRGBA().toString();
   });

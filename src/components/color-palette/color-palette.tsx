@@ -57,6 +57,20 @@ export class ColorPalette {
 
   componentWillLoad() {
     this.setInternalColor(this.color);
+
+    return new Promise<void>(resolve => {
+      if (this.slider !== null && this.slider !== undefined) {
+        const offsetWidth = this.slider.offsetWidth;
+        const offsetHeight = this.slider.offsetHeight;
+        if (!isNaN(offsetWidth)) {
+          this.sliderOffsetWidth = offsetWidth / 2;
+        }
+        if (!isNaN(offsetHeight)) {
+          this.sliderOffsetHeight = this.slider.offsetHeight / 2;
+        }
+      }
+      resolve();
+    });
   }
 
   componentDidLoad() {
@@ -64,17 +78,6 @@ export class ColorPalette {
       element: this.slider,
       wrapper: this.palette,
     });
-
-    if (this.slider !== null) {
-      const offsetWidth = this.slider.offsetWidth;
-      const offsetHeight = this.slider.offsetHeight;
-      if (!isNaN(offsetWidth)) {
-        this.sliderOffsetWidth = offsetWidth / 2;
-      }
-      if (!isNaN(offsetHeight)) {
-        this.sliderOffsetHeight = this.slider.offsetHeight / 2;
-      }
-    }
   }
 
   /**
