@@ -12,10 +12,12 @@
   box-shadow: 0 5px 15px rgba(70, 74, 83, 0.25);
   cursor: pointer;
   transition: top 150ms linear, left 150ms linear;
+  will-change: left, top;
 }
 
 .selector__pickr:active {
   transition: none;
+  cursor: none;
 }
 
 .color-selector {

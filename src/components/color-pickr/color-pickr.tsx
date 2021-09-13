@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State, Listen, Event, EventEmitter } from '@stencil/core';
+import { Component, Host, h, Prop, State, Listen, Event, EventEmitter, Method } from '@stencil/core';
 import { HSVaColor } from "../../utils/HSVaColor";
 import { alphaToHex, isValidHex, parseToHSVA } from "../../utils/Color";
 import { numberAsPercent } from "../../utils/Number";
@@ -11,10 +11,15 @@ import { numberAsPercent } from "../../utils/Number";
 export class ColorPickr {
 
   private currentColor: HSVaColor;
-  private palettesToDisplay: Array<any> = [];
+  private colorPalette: HTMLColorPaletteElement;
+  private hueSlider: HTMLHueSliderElement;
+  private opacitySlider: HTMLOpacitySliderElement;
+  private hasRecentColors: boolean = false;
+  // private settingInitialColor: boolean = true;
 
   @State() colorHex: string;
   @State() currentOpacity: number;
+  @State() palettesToDisplay: Array<any> = [];
 
   /**
    * The color that is being displayed. This currently **MUST** be in 6 digit hex format
@@ -30,6 +35,16 @@ export class ColorPickr {
    * Example of format:
    */
   @Prop() palettes: string | Array<any>;
+
+  /**
+   * Max number of preset palettes to display
+   */
+  @Prop() maxPresetDisplay: number = 50;
+
+  /**
+   * The label that corresponds to the group of palettes for your recent colors
+   */
+  @Prop() recentColorsLabel: string = 'Recent Colors';
 
   /**
    * Emitted when a color or the opacity is changed
@@ -66,6 +81,11 @@ export class ColorPickr {
     this.palettesToDisplay = palettes;
   }
 
+  @Listen('hueChange')
+  hueChangeHandler(event: CustomEvent<number>) {
+    this.colorPalette.setHue(event.detail);
+  }
+
   @Listen('opacityChange')
   opacityChangeHandler(event: CustomEvent<string>) {
     this.currentOpacity = numberAsPercent(event.detail);
@@ -75,7 +95,52 @@ export class ColorPickr {
 
   @Listen('colorPaletteChange')
   colorPaletteChangeHandler(event: CustomEvent<HSVaColor>) {
+    this.opacitySlider?.setColor(event.detail.toHEXA().toString());
     this.setColor(event.detail.toHEXA().toString());
+  }
+
+  @Listen('colorPickrAddRecent', { target: "document" })
+  colorPickrAddRecentHandler(event: CustomEvent<{ hex: string, pickr: ColorPickr }>) {
+    if (!this.hasRecentColors) {
+      return;
+    }
+
+    const recentPalettes = this.getPresetPaletteGroup(this.recentColorsLabel);
+    if (!this.paletteExists(event.detail.hex, recentPalettes.palettes)) {
+      this.addToPreset(event.detail.hex, this.recentColorsLabel);
+    }
+  }
+
+  /**
+   * Add a single color the list of preset palettes. If the label already exists it will be added to the start. If it doesn't exist, a new section will be created.
+   * @param hex
+   * @param label
+   */
+  @Method()
+  async addToPreset(hex: string, label: string) {
+    if (this.renderPresetPalette(hex)) {
+      const palettes = JSON.parse(JSON.stringify(this.palettesToDisplay));
+      const paletteIndex = palettes.findIndex(p => p.label === label);
+      if (paletteIndex !== -1) {
+        if (!this.paletteExists(hex, palettes[paletteIndex].palettes)) {
+          palettes[paletteIndex].palettes.unshift(hex);
+        }
+      } else {
+        palettes.push({
+          label: label,
+          palettes: [
+            hex
+          ]
+        });
+      }
+      this.palettesToDisplay = palettes;
+    }
+  }
+
+  private getPresetPaletteGroup(label: string) {
+    const palettes = JSON.parse(JSON.stringify(this.palettesToDisplay));
+    const paletteIndex = palettes.findIndex(p => p.label === label);
+    return palettes[paletteIndex];
   }
 
   private handleOpacityInput = event => {
@@ -88,6 +153,9 @@ export class ColorPickr {
   private setPresetPalette = event => {
     this.setColor(event.target.dataset.color);
     this.currentOpacity = numberAsPercent(this.currentColor.alpha);
+    this.hueSlider.setHue(this.currentColor.hue);
+    this.colorPalette.setColor(this.currentColor.toHEX().toString());
+    this.setOpacitySlider();
     this.presetPaletteChange.emit(this.currentColor.clone());
   }
 
@@ -102,9 +170,33 @@ export class ColorPickr {
   private setColor(color) {
     this.currentColor = new HSVaColor(...parseToHSVA(color).values);
     this.colorHex = this.currentColor.toHEX().toString();
-
+    this.colorPalette?.setColor(this.currentColor.toHEX().toString());
     this.colorChange.emit(this.currentColor.clone());
   }
+
+
+  private setOpacitySlider() {
+    if (this.showOpacity()) {
+      this.opacitySlider.setColor(this.currentColor.toHEX().toString());
+      this.opacitySlider.setOpacity(this.currentColor.alpha);
+    }
+  }
+
+  private showOpacity(): boolean {
+    return this.opacity !== undefined || this.color.length > 7;
+  }
+
+  private hasOpacity = (color: string): boolean => color.length > 7;
+
+  private renderPresetPalette(palette): boolean {
+    return (isValidHex(palette) && !this.showOpacity() && !this.hasOpacity(palette)) ||
+      (isValidHex(palette) && this.showOpacity());
+  }
+
+  private paletteExists(hex: string, palettes: Array<string>) {
+    return palettes.findIndex(pHex => pHex.toLowerCase() === hex.toLowerCase()) !== -1;
+  }
+
 
   private renderOpacityInput(): HTMLDivElement {
     if (this.opacity !== undefined || this.color.length > 7) {
@@ -124,13 +216,13 @@ export class ColorPickr {
     return (
       <Host>
         <div class={ 'container' }>
-          <color-palette color={ this.colorHex } />
+          <color-palette color={ this.colorHex } ref={ el => this.colorPalette = el as HTMLColorPaletteElement } />
 
-          <hue-slider color={ this.colorHex } />
+          <hue-slider color={ this.colorHex } ref={ el => this.hueSlider = el as HTMLHueSliderElement } />
 
           {
-            this.opacity !== undefined || this.color.length > 7
-              ? <opacity-slider color={ this.colorHex } opacity={ this.currentOpacity } />
+            this.showOpacity()
+              ? <opacity-slider color={ this.colorHex } opacity={ this.currentOpacity } ref={ el => this.opacitySlider = el as HTMLOpacitySliderElement } />
               : ''
           }
 
@@ -150,12 +242,17 @@ export class ColorPickr {
 
           <div>
             { this.palettesToDisplay.map(({ label, palettes }) => {
+              let presetCount: number = 0;
+              if (label === this.recentColorsLabel) {
+                this.hasRecentColors = true;
+              }
               return (
                 <div>
                   <h3 class={ 'palettes-header' }>{ label }</h3>
                   <div class={ 'palettes-container' }>
                     { palettes.map(palette => {
-                      if (isValidHex(palette)) {
+                      if (this.renderPresetPalette(palette) && presetCount < this.maxPresetDisplay) {
+                        presetCount++;
                         return (
                           <div class={ {
                             'palette__container': true,
@@ -178,3 +275,8 @@ export class ColorPickr {
     );
   }
 }
+
+// console.log(palettes[paletteIndex].palettes.length, this.maxPresetPalettes);
+// if(palettes[paletteIndex].palettes.length > this.maxPresetPalettes + 1) {
+//   palettes[paletteIndex].palettes.pop();
+// }

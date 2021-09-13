@@ -1,4 +1,4 @@
-import { Component, Event, EventEmitter, h, Listen, Prop, State, Watch } from '@stencil/core';
+import { Component, Event, EventEmitter, h, Method, Prop, State, Watch } from '@stencil/core';
 import Moveable from "../../libs/Moveable";
 import { parseToHSVA } from "../../utils/Color";
 import { HSVaColor } from "../../utils/HSVaColor";
@@ -30,7 +30,7 @@ export class OpacitySlider {
 
   @Watch('opacity')
   watchOpacity(opacity) {
-    this.setOpacity(opacity);
+    this.setInternalOpacity(opacity);
   }
 
   private getOpacityAsPercent(): number {
@@ -47,6 +47,24 @@ export class OpacitySlider {
     this.opacityChange.emit(this.currentOpacity);
   }
 
+  /**
+   * Sets the color for the slider
+   * @param color
+   */
+  @Method()
+  async setColor(color: string) {
+    this.setInternalColor(color);
+  }
+
+  /**
+   * Sets te opacity for the slider
+   * @param opacity
+   */
+  @Method()
+  async setOpacity(opacity: number) {
+    this.setInternalOpacity(opacity);
+  }
+
   componentDidLoad() {
     new Moveable({
       lock: 'v',
@@ -58,27 +76,16 @@ export class OpacitySlider {
   }
 
   componentWillLoad() {
-    this.setOpacity(this.opacity);
-    this.setColor(this.color);
+    this.setInternalOpacity(this.opacity);
+    this.setInternalColor(this.color);
   }
 
-  @Listen('presetPaletteChange', { target: "document" })
-  presetPaletteChangeHandler(event: CustomEvent<HSVaColor>) {
-    this.setColor(event.detail.toHEX().toString());
-    this.setOpacity(event.detail.alpha);
-  }
-
-  @Listen('colorPaletteChange', { target: "document" })
-  hueChangeHandler(event: CustomEvent<HSVaColor>) {
-    this.setColor(event.detail.toHEX().toString());
-  }
-
-  private setOpacity(opacity) {
+  private setInternalOpacity(opacity: number) {
     const o = opacity ?? 100;
     this.currentOpacity = o > 1 ? o / 100 : o;
   }
 
-  private setColor(color) {
+  private setInternalColor(color) {
     this.currentColor = new HSVaColor(...parseToHSVA(color).values);
     this.currentColor.alpha = this.currentOpacity;
     this.currentRgb = this.currentColor.toRGB();

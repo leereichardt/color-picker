@@ -1,4 +1,4 @@
-import { Component, EventEmitter, h, Prop, Event, Listen } from '@stencil/core';
+import { Component, EventEmitter, h, Prop, Event, Method } from '@stencil/core';
 import Moveable from "../../libs/Moveable";
 import { HSVaColor } from "../../utils/HSVaColor";
 import { parseToHSVA } from "../../utils/Color";
@@ -13,8 +13,6 @@ export class HueSlider {
   private hue: number;
   private container: HTMLDivElement
   private slider: HTMLDivElement
-
-  // @State() hue: number;
 
   /**
    * The color that is being displayed. This currently *MUST* be in 6 digit hex format.
@@ -31,6 +29,15 @@ export class HueSlider {
     this.slider.style.backgroundColor = `hsl(${ hue }, 100%, 50%)`;
   }
 
+  /**
+   * Sets the hue value
+   * @param {number} hue
+   */
+  @Method()
+  async setHue(hue: number) {
+    this.hue = hue;
+  }
+
   componentWillLoad() {
     const color = new HSVaColor(...parseToHSVA(this.color).values);
     this.hue = color.hue;
@@ -44,11 +51,6 @@ export class HueSlider {
     });
   }
 
-  @Listen('presetPaletteChange', { target: "document" })
-  presetPaletteChangeHandler(event: CustomEvent<HSVaColor>) {
-    this.hue = event.detail.hue;
-  }
-
   render() {
     return (
       <div class={ 'component-outer' } style={ {
@@ -58,7 +60,7 @@ export class HueSlider {
         <div class={ 'hue-selector component-selector' } />
         <div class={ 'selector__pickr' } style={ {
           'margin-top': '-4px',
-          'left': `${ this.hue / 360 * 100 }%`,
+          'left': `calc(${ this.hue / 360 * 100 }% - 8px)`,
           'background': `hsl(${ this.hue }, 100%, 50%)`
         } }
              onChange={ this.handleChange }

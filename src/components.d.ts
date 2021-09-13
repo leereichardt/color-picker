@@ -12,12 +12,32 @@ export namespace Components {
           * The color that is being displayed. This currently *MUST* be in 6 digit hex format.
          */
         "color": string;
+        /**
+          * Sets the color. Must pass through a hex value
+          * @param color
+         */
+        "setColor": (color: string) => Promise<void>;
+        /**
+          * Set the hue ONLY on color palette
+          * @param hue
+         */
+        "setHue": (hue: number) => Promise<void>;
     }
     interface ColorPickr {
+        /**
+          * Add a single color the list of preset palettes. If the label already exists it will be added to the start. If it doesn't exist, a new section will be created.
+          * @param hex
+          * @param label
+         */
+        "addToPreset": (hex: string, label: string) => Promise<void>;
         /**
           * The color that is being displayed. This currently **MUST** be in 6 digit hex format
          */
         "color": string;
+        /**
+          * Max number of preset palettes to display
+         */
+        "maxPresetDisplay": number;
         /**
           * The starting opacity value form 0 - 100.
          */
@@ -26,12 +46,21 @@ export namespace Components {
           * A JSON formatted string of palettes, or an Array if being passed through programmatically. Example of format:
          */
         "palettes": string | Array<any>;
+        /**
+          * The label that corresponds to the group of palettes for your recent colors
+         */
+        "recentColorsLabel": string;
     }
     interface HueSlider {
         /**
           * The color that is being displayed. This currently *MUST* be in 6 digit hex format.
          */
         "color": string;
+        /**
+          * Sets the hue value
+          * @param hue
+         */
+        "setHue": (hue: number) => Promise<void>;
     }
     interface OpacitySlider {
         /**
@@ -42,6 +71,16 @@ export namespace Components {
           * The starting opacity value form 0 - 100
          */
         "opacity": number;
+        /**
+          * Sets the color for the slider
+          * @param color
+         */
+        "setColor": (color: string) => Promise<void>;
+        /**
+          * Sets te opacity for the slider
+          * @param opacity
+         */
+        "setOpacity": (opacity: number) => Promise<void>;
     }
 }
 declare global {
@@ -93,6 +132,10 @@ declare namespace LocalJSX {
          */
         "color"?: string;
         /**
+          * Max number of preset palettes to display
+         */
+        "maxPresetDisplay"?: number;
+        /**
           * Emitted when a color or the opacity is changed
          */
         "onColorChange"?: (event: CustomEvent<HSVaColor>) => void;
@@ -108,6 +151,10 @@ declare namespace LocalJSX {
           * A JSON formatted string of palettes, or an Array if being passed through programmatically. Example of format:
          */
         "palettes"?: string | Array<any>;
+        /**
+          * The label that corresponds to the group of palettes for your recent colors
+         */
+        "recentColorsLabel"?: string;
     }
     interface HueSlider {
         /**

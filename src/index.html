@@ -18,18 +18,27 @@
 </head>
 <body>
 <div style="width: 600px; margin: 100px auto 0; display: flex; gap: 50px">
-<!--  <color-palette color='#FFF' />-->
-<!--  <color-pickr color="#46618B" opacity="41"></color-pickr>-->
+  <!--  <color-palette color='#FFF' />-->
+  <color-pickr class="test1" color="#46618B" opacity="41"></color-pickr>
+  <color-pickr class="test2" color="#ff1d28"></color-pickr>
+  <button>Add random palette</button>
   <div class="color-container">Color: <span class="color"></span></div>
 </div>
 
 <script>
-  const c = document.querySelector('color-pickr');
+  const c = document.querySelector('.test1');
+  const c2 = document.querySelector('.test2');
+  const button = document.querySelector('button');
   const cText = document.querySelector('.color');
   const cContainer = document.querySelector('.color-container');
   c.addEventListener('colorChange', event => {
+    console.log(event.detail);
     cText.textContent = event.detail.toRGBA().toString();
     cContainer.style.color = event.detail.toRGBA().toString();
+  });
+  button.addEventListener('click', () => {
+    const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+    c.addToPreset(`#${randomColor}`, 'Main Colors');
   });
   const palettes = [{
     'label': 'Brand Colors',
@@ -60,8 +69,19 @@
       '#00FFFF',
       '#FFFF00',
     ]
+  }, {
+    'label': 'Main Colors',
+    'palettes': [
+      '#FF0000',
+      '#00FF00',
+      '#0000FF',
+      '#FF00FF',
+      '#00FFFF',
+      '#FFFF00',
+    ]
   }];
   c.palettes = palettes;
+  c2.palettes = palettes;
 </script>
 </body>
 </html>

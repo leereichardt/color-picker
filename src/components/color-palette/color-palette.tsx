@@ -1,4 +1,4 @@
-import { Component, Event, EventEmitter, h, Listen, Prop, State } from '@stencil/core';
+import { Component, Event, EventEmitter, h, Method, Prop, State } from '@stencil/core';
 import Moveable from "../../libs/Moveable";
 import { parseToHSVA } from "../../utils/Color";
 import { HSVaColor } from "../../utils/HSVaColor";
@@ -56,7 +56,7 @@ export class ColorPalette {
   }
 
   componentWillLoad() {
-    this.setColor(this.color);
+    this.setInternalColor(this.color);
   }
 
   componentDidLoad() {
@@ -68,28 +68,36 @@ export class ColorPalette {
     if (this.slider !== null) {
       const offsetWidth = this.slider.offsetWidth;
       const offsetHeight = this.slider.offsetHeight;
-      if(!isNaN(offsetWidth)) {
+      if (!isNaN(offsetWidth)) {
         this.sliderOffsetWidth = offsetWidth / 2;
       }
-      if(!isNaN(offsetHeight)) {
+      if (!isNaN(offsetHeight)) {
         this.sliderOffsetHeight = this.slider.offsetHeight / 2;
       }
     }
   }
 
-  @Listen('hueChange', { target: "document" })
-  hueChangeHandler(event: CustomEvent<number>) {
-    this.currentColor.hue = event.detail;
+  /**
+   * Set the hue ONLY on color palette
+   * @param hue
+   */
+  @Method()
+  async setHue(hue: number) {
+    this.currentColor.hue = hue;
     this.paletteBackgroundStyle = ColorPalette.getPaletteBackgroundColor(this.currentColor.hue);
     this.colorPaletteChange.emit(this.currentColor);
   }
 
-  @Listen('presetPaletteChange', { target: "document" })
-  presetPaletteChangeHandler(event: CustomEvent<HSVaColor>) {
-    this.setColor(event.detail.toHEX().toString());
+  /**
+   * Sets the color. Must pass through a hex value
+   * @param {string} color
+   */
+  @Method()
+  async setColor(color: string) {
+    this.setInternalColor(color);
   }
 
-  private setColor(color) {
+  private setInternalColor(color) {
     this.currentColor = new HSVaColor(...parseToHSVA(color).values);
     this.sliderLeft = this.currentColor.saturation;
     this.sliderTop = 100 - this.currentColor.value;
