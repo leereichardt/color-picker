@@ -275,8 +275,3 @@ export class ColorPickr {
     );
   }
 }
-
-// console.log(palettes[paletteIndex].palettes.length, this.maxPresetPalettes);
-// if(palettes[paletteIndex].palettes.length > this.maxPresetPalettes + 1) {
-//   palettes[paletteIndex].palettes.pop();
-// }

@@ -8,7 +8,8 @@
   padding: 16px;
   border-radius: 8px;
   background: #fff;
-  box-shadow: 0 5px 15px rgba(70, 74, 83, 0.25); /* secondary black */
+  box-shadow: 0 5px 15px rgba(70, 74, 83, 0.25);
+  font-family: soleil, sans-serif;
 }
 
 .input-container {

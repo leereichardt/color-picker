@@ -75,9 +75,6 @@ export default class Moveable {
           } else if (right) {
             xm = 1;
           }
-
-          // ym = up ? -1 : down ? 1 : 0;
-          // xm = left ? -1 : right ? 1 : 0;
         }
 
         this.update(this.clamp(this.cache.x + 0.01 * xm), this.clamp(this.cache.y + 0.01 * ym));
