@@ -19,16 +19,17 @@ export class ColorPalette {
   @State() sliderLeft: number = 50;
   @State() sliderTop: number = 50;
   @State() paletteBackgroundStyle: string;
+  @State() hue: number = 0;
 
   /**
    * The color that is being displayed. This currently *MUST* be in 6 digit hex format.
    */
   @Prop() color: string;
 
-  private static getPaletteBackgroundColor(hue) {
+  private getPaletteBackgroundColor = (): string => {
     return `
     linear-gradient(to top, rgba(0, 0, 0, 1), transparent),
-    linear-gradient(to left, hsla(${ hue }, 100%, 50%, 1),
+    linear-gradient(to left, hsla(${ this.hue }, 100%, 50%, 1),
     rgba(255, 255, 255, 1))
     `;
   }
@@ -87,7 +88,7 @@ export class ColorPalette {
   @Method()
   async setHue(hue: number) {
     this.currentColor.hue = hue;
-    this.paletteBackgroundStyle = ColorPalette.getPaletteBackgroundColor(this.currentColor.hue);
+    this.hue = hue;
     this.colorPaletteChange.emit(this.currentColor);
   }
 
@@ -102,9 +103,9 @@ export class ColorPalette {
 
   private setInternalColor(color) {
     this.currentColor = new HSVaColor(...parseToHSVA(color).values);
+    this.hue = this.currentColor.hue;
     this.sliderLeft = this.currentColor.saturation;
     this.sliderTop = 100 - this.currentColor.value;
-    this.paletteBackgroundStyle = ColorPalette.getPaletteBackgroundColor(this.currentColor.hue);
   }
 
   render() {
@@ -112,7 +113,7 @@ export class ColorPalette {
       <div class={ 'color-selector' }
            ref={ el => this.palette = el as HTMLDivElement }
            style={ {
-             background: this.paletteBackgroundStyle
+             background: this.getPaletteBackgroundColor()
            } }
       >
         <div class={ 'selector__pickr' } style={ {

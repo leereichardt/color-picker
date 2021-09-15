@@ -14,7 +14,8 @@
   transition: left 150ms linear;
 }
 
-.selector__pickr:active {
+.selector__pickr:active,
+.color-selector:active .selector__pickr {
   transition: none;
 }
 

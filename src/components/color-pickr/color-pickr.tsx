@@ -83,6 +83,7 @@ export class ColorPickr {
 
   @Listen('hueChange')
   hueChangeHandler(event: CustomEvent<number>) {
+    console.log(event.detail);
     this.colorPalette.setHue(event.detail);
   }
 
@@ -170,7 +171,7 @@ export class ColorPickr {
   private setColor(color) {
     this.currentColor = new HSVaColor(...parseToHSVA(color).values);
     this.colorHex = this.currentColor.toHEX().toString();
-    this.colorPalette?.setColor(this.currentColor.toHEX().toString());
+    // this.colorPalette?.setColor(this.currentColor.toHEX().toString());
     this.colorChange.emit(this.currentColor.clone());
   }
 
