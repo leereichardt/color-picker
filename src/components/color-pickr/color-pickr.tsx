@@ -83,7 +83,6 @@ export class ColorPickr {
 
   @Listen('hueChange')
   hueChangeHandler(event: CustomEvent<number>) {
-    console.log(event.detail);
     this.colorPalette.setHue(event.detail);
   }
 
