@@ -28,7 +28,9 @@ workflows:
       - install-puppeteer:
           context:
             - docker-hub-creds
-      - node/test
+      - node/test:
+          requires:
+            - install-puppeteer
 #workflows:
 #  Testing:
 #    jobs:
