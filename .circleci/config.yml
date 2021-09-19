@@ -8,6 +8,9 @@ jobs:
   install-puppeteer:
     docker:
       - image: cimg/node:latest
+        auth:
+          username: leereichardt # can specify string literal values
+          password: $DOCKERHUB_PASSWORD # or project environment variable reference
     steps:
       - run:
           name: Install Headless Chrome dependencies
