@@ -108,7 +108,7 @@ export class OpacitySlider {
           class={ 'selector__pickr' }
           style={ {
             'margin-top': '-4px',
-            'left': `calc(${ this.getOpacityAsPercent() }% - ${ this.sliderOffset }px)`,
+            'left': `${ this.getOpacityAsPercent() }%`,
             'background': `rgba(${ this.currentRgb[0] },${ this.currentRgb[1] },${ this.currentRgb[2] }, ${ this.currentOpacity })`
           } }
           onChange={ this.handleOpacityChange }

@@ -12,11 +12,13 @@
   box-shadow: 0 5px 15px rgba(70, 74, 83, 0.25);
   cursor: pointer;
   transition: left 150ms linear;
+  transform: translateX(-50%);
 }
 
 .selector__pickr:active,
 .color-selector:active .selector__pickr {
   transition: none;
+  cursor: none;
 }
 
 .component-outer {

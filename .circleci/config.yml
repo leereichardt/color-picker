@@ -5,7 +5,7 @@ orbs:
   node: circleci/node@4.1
 
 workflows:
-  sample:
+  Testing:
     jobs:
       - node/test:
           version: '15.1'

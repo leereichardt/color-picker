@@ -26,6 +26,7 @@
 }
 
 .selector__pickr {
+  transform: translateX(-50%);
   position: absolute;
   height: 16px;
   width: 16px;
@@ -40,4 +41,5 @@
 .selector__pickr:active,
 .color-selector:active .selector__pickr {
   transition: none;
+  cursor: none;
 }

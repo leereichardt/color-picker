@@ -130,11 +130,13 @@ export default class Moveable {
     }
 
     if (this.options.lock !== 'h') {
-      this.options.element.style.left = `calc(${ (x / this.wrapperBoundingClient.width) * 100 }% - ${ this.options.element.offsetWidth / 2 }px)`;
+      // this.options.element.style.left = `calc(${ (x / this.wrapperBoundingClient.width) * 100 }% - ${ this.options.element.offsetWidth / 2 }px)`;
+      this.options.element.style.left = `${ (x / this.wrapperBoundingClient.width) * 100 }%`;
     }
 
     if (this.options.lock !== 'v') {
-      this.options.element.style.top = `calc(${ (y / this.wrapperBoundingClient.height) * 100 }% - ${ this.options.element.offsetHeight / 2 }px)`;
+      // this.options.element.style.top = `calc(${ (y / this.wrapperBoundingClient.height) * 100 }% - ${ this.options.element.offsetHeight / 2 }px)`;
+      this.options.element.style.top = `${ (y / this.wrapperBoundingClient.height) * 100 }%`;
     }
 
     this.cache = {

@@ -60,7 +60,7 @@ export class HueSlider {
         <div class={ 'hue-selector component-selector' } />
         <div class={ 'selector__pickr' } style={ {
           'margin-top': '-4px',
-          'left': `calc(${ this.hue / 360 * 100 }% - 8px)`,
+          'left': `${ this.hue / 360 * 100 }%`,
           'background': `hsl(${ this.hue }, 100%, 50%)`
         } }
              onChange={ this.handleChange }

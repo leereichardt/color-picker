@@ -10,7 +10,8 @@ export const config: Config = {
     browserArgs: ['--no-sandbox', '--disable-setuid-sandbox'],
     setupFilesAfterEnv: [
       `<rootDir>/test-configs/setupTests.ts`
-    ]
+    ],
+    testRegex: "(/__tests__/.*|\\.?(test|spec|e2e))\\.(tsx?|ts?)$"
   },
   outputTargets: [
     {

@@ -117,8 +117,8 @@ export class ColorPalette {
            } }
       >
         <div class={ 'selector__pickr' } style={ {
-          'left': `calc(${ this.sliderLeft }% - ${ this.sliderOffsetWidth }px)`,
-          'top': `calc(${ this.sliderTop }% - ${ this.sliderOffsetHeight }px)`,
+          'left': `${ this.sliderLeft }%`,
+          'top': `${ this.sliderTop }%`,
           'background': this.currentColor.toRGB().toString()
         } }
              onChange={ this.handleChange }
