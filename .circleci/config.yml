@@ -21,16 +21,28 @@ jobs:
             libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 \
             libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates \
             fonts-liberation libnss3 lsb-release xdg-utils wget
+  test:
+    docker:
+      - image: cimg/node:12.15.0-browsers
+        auth:
+          username: leereichardt # can specify string literal values
+          password: $DOCKERHUB_PASSWORD # or project environment variable reference
+    steps:
+      - run: npm ci
+      - run:
+          name: Run Stencil Tests
+          command: npm run test
+
 
 workflows:
-  Test and Deploy Workflow:
+  Test and Deploy:
     jobs:
-      - install-puppeteer:
+      - test:
           context:
             - docker-hub-creds
-      - node/test:
-          requires:
-            - install-puppeteer
+#      - node/test:
+#          requires:
+#            - install-puppeteer
 #workflows:
 #  Testing:
 #    jobs:
