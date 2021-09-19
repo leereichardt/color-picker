@@ -5,10 +5,16 @@ orbs:
   puppeteer: threetreeslight/puppeteer@0.1.2
   node: circleci/node@4.1
 
+jobs:
+  test:
+    docker:
+      - image: cimg/node:latest
+    steps:
+      - puppeteer/install
+
 workflows:
   Test and Deploy Workflow:
     jobs:
-      - puppeteer/install
       - node/test
 #workflows:
 #  Testing:
