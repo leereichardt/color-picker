@@ -12,12 +12,7 @@ jobs:
     steps:
       - run: 'npm run test'
 
-
-#workflows:
-#  Testing:
-#    jobs:
-#      - node/test:
-#          version: '15.1'
-          # This is the node version to use for the `cimg/node` tag
-          # Relevant tags can be found on the CircleCI Developer Hub
-          # https://circleci.com/developer/images/image/cimg/node
+workflows:
+  Test and Deploy Workflow:
+    jobs:
+      - testing
