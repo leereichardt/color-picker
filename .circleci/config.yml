@@ -6,7 +6,7 @@ orbs:
   node: circleci/node@4.1
 
 jobs:
-  test:
+  install-puppeteer:
     docker:
       - image: cimg/node:latest
     steps:
@@ -15,6 +15,7 @@ jobs:
 workflows:
   Test and Deploy Workflow:
     jobs:
+      - install-puppeteer
       - node/test
 #workflows:
 #  Testing:
