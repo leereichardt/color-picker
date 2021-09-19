@@ -8,11 +8,13 @@ jobs:
   testing:
     docker:
       - image: circleci/node:latest-browsers
-#    executor: my-executor
     steps:
       - run: 'npm run test'
 
-
+workflows:
+  Test and Deploy Workflow:
+    jobs:
+      - testing
 #workflows:
 #  Testing:
 #    jobs:
