@@ -4,11 +4,20 @@ version: 2.1
 orbs:
   node: circleci/node@4.1
 
-workflows:
-  Testing:
-    jobs:
-      - node/test:
-          version: '15.1'
+jobs:
+  testing:
+    docker:
+      - image: circleci/node:latest-browsers
+#    executor: my-executor
+    steps:
+      - run: 'npm run test'
+
+
+#workflows:
+#  Testing:
+#    jobs:
+#      - node/test:
+#          version: '15.1'
           # This is the node version to use for the `cimg/node` tag
           # Relevant tags can be found on the CircleCI Developer Hub
           # https://circleci.com/developer/images/image/cimg/node
