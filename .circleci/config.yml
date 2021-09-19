@@ -2,19 +2,19 @@
 version: 2.1
 
 orbs:
-  node: circleci/node@4.1
+  node: cimg/node@16.8.0
 
-jobs:
-  testing:
-    docker:
-      - image: circleci/node:latest-browsers
-    steps:
-      - run: 'npm run test'
+#jobs:
+#  testing:
+#    docker:
+#      - image: circleci/node:latest-browsers
+#    steps:
+#      - run: 'npm run test'
 
 workflows:
   Test and Deploy Workflow:
     jobs:
-      - testing
+      - node/test
 #workflows:
 #  Testing:
 #    jobs:
