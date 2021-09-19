@@ -25,10 +25,9 @@ jobs:
 workflows:
   Test and Deploy Workflow:
     jobs:
-      - build:
+      - install-puppeteer:
           context:
             - docker-hub-creds
-      - install-puppeteer
       - node/test
 #workflows:
 #  Testing:
