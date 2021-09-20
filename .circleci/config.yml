@@ -12,8 +12,6 @@ jobs:
           username: leereichardt # can specify string literal values
           password: $DOCKERHUB_PASSWORD # or project environment variable reference
     steps:
-      - setup_remote_docker:
-          docker_layer_caching: true
       - install
       - run:
           name: Run Stencil Tests
