@@ -210,7 +210,7 @@ export function parseToHSVA(colorString: string): ParsedHSVA {
   if (type === 'rgba') {
     const [, , , r, g, b, a] = numarize(match);
 
-    if (r && g && b && a && r <= 255 && g <= 255 && b <= 255 && isValidAlpha(a)) {
+    if (r !== undefined && g !== undefined  && b !== undefined  && a !== undefined  && r <= 255 && g <= 255 && b <= 255 && isValidAlpha(a)) {
       return { values: [...rgbToHsv(r, g, b), a], alpha: a, type };
     }
   }

@@ -1,6 +1,6 @@
 import { Component, Host, h, Prop, State, Listen, Event, EventEmitter, Method } from '@stencil/core';
 import { HSVaColor } from "../../utils/HSVaColor";
-import { alphaToHex, isValidHex, parseToHSVA } from "../../utils/Color";
+import { isValidHex, parseToHSVA } from "../../utils/Color";
 import { numberAsPercent } from "../../utils/Number";
 
 @Component({
@@ -58,9 +58,9 @@ export class ColorPickr {
 
   componentWillLoad() {
     const color = this.color ?? '#7CA1FF';
-    const opacity = this.opacity ?? 100;
-    const alphaHex = alphaToHex(opacity / 100);
-    this.setColor(color + alphaHex);
+    // const opacity = this.opacity ?? 100;
+    // const alphaHex = alphaToHex(opacity / 100);
+    this.setColor(color);
     this.currentOpacity = numberAsPercent(this.currentColor.alpha);
 
     let palettes = this.palettes;
@@ -167,10 +167,9 @@ export class ColorPickr {
     }
   }
 
-  private setColor(color) {
+  private setColor(color: string) {
     this.currentColor = new HSVaColor(...parseToHSVA(color).values);
     this.colorHex = this.currentColor.toHEX().toString();
-    // this.colorPalette?.setColor(this.currentColor.toHEX().toString());
     this.colorChange.emit(this.currentColor.clone());
   }
 
