@@ -11,17 +11,16 @@
 | ------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------- | ----------------- | ----------------- |
 | `color`             | `color`               | The color that is being displayed. This currently **MUST** be in 6 digit hex format                           | `string`          | `undefined`       |
 | `maxPresetDisplay`  | `max-preset-display`  | Max number of preset palettes to display                                                                      | `number`          | `50`              |
-| `opacity`           | `opacity`             | The starting opacity value form 0 - 100.                                                                      | `number`          | `undefined`       |
+| `opacity`           | `opacity`             | Whether opacity is supported on this instance.                                                                | `boolean`         | `undefined`       |
 | `palettes`          | `palettes`            | A JSON formatted string of palettes, or an Array if being passed through programmatically. Example of format: | `any[] \| string` | `undefined`       |
 | `recentColorsLabel` | `recent-colors-label` | The label that corresponds to the group of palettes for your recent colors                                    | `string`          | `'Recent Colors'` |
 
 
 ## Events
 
-| Event                 | Description                                         | Type                     |
-| --------------------- | --------------------------------------------------- | ------------------------ |
-| `colorChange`         | Emitted when a color or the opacity is changed      | `CustomEvent<HSVaColor>` |
-| `presetPaletteChange` | Emitted when a preset color palette has been chosen | `CustomEvent<HSVaColor>` |
+| Event         | Description                                    | Type                     |
+| ------------- | ---------------------------------------------- | ------------------------ |
+| `colorChange` | Emitted when a color or the opacity is changed | `CustomEvent<HSVaColor>` |
 
 
 ## Methods
