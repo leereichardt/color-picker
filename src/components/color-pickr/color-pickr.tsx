@@ -26,9 +26,9 @@ export class ColorPickr {
    */
   @Prop() color: string;
   /**
-   * The starting opacity value form 0 - 100.
+   * Whether opacity is supported on this instance.
    */
-  @Prop() opacity: number;
+  @Prop() opacity: boolean;
 
   /**
    * A JSON formatted string of palettes, or an Array if being passed through programmatically.
@@ -51,15 +51,8 @@ export class ColorPickr {
    */
   @Event() colorChange: EventEmitter<HSVaColor>
 
-  /**
-   * Emitted when a preset color palette has been chosen
-   */
-  @Event() presetPaletteChange: EventEmitter<HSVaColor>
-
   componentWillLoad() {
     const color = this.color ?? '#7CA1FF';
-    // const opacity = this.opacity ?? 100;
-    // const alphaHex = alphaToHex(opacity / 100);
     this.setColor(color);
     this.currentOpacity = numberAsPercent(this.currentColor.alpha);
 
@@ -96,6 +89,7 @@ export class ColorPickr {
   @Listen('colorPaletteChange')
   colorPaletteChangeHandler(event: CustomEvent<HSVaColor>) {
     this.opacitySlider?.setColor(event.detail.toHEXA().toString());
+    event.detail.alpha = this.currentOpacity;
     this.setColor(event.detail.toHEXA().toString());
   }
 
@@ -156,7 +150,6 @@ export class ColorPickr {
     this.hueSlider.setHue(this.currentColor.hue);
     this.colorPalette.setColor(this.currentColor.toHEX().toString());
     this.setOpacitySlider();
-    this.presetPaletteChange.emit(this.currentColor.clone());
   }
 
   private handleHexInput = event => {
@@ -164,13 +157,19 @@ export class ColorPickr {
     const hex = hexValue.startsWith('#') ? hexValue : `#${ hexValue }`;
     if (isValidHex(hex)) {
       this.setColor(hex);
+      this.hueSlider.setHue(this.currentColor.hue);
+      this.colorPalette.setColor(this.currentColor.toHEX().toString());
     }
   }
 
   private setColor(color: string) {
     this.currentColor = new HSVaColor(...parseToHSVA(color).values);
     this.colorHex = this.currentColor.toHEX().toString();
-    this.colorChange.emit(this.currentColor.clone());
+    const outputColor = this.currentColor.clone();
+    if (!this.showOpacity()) {
+      outputColor.alpha = 1;
+    }
+    this.colorChange.emit(outputColor);
   }
 
 
@@ -182,7 +181,7 @@ export class ColorPickr {
   }
 
   private showOpacity(): boolean {
-    return this.opacity !== undefined || this.color.length > 7;
+    return this.opacity !== undefined && this.opacity === true;
   }
 
   private hasOpacity = (color: string): boolean => color.length > 7;
@@ -198,7 +197,7 @@ export class ColorPickr {
 
 
   private renderOpacityInput(): HTMLDivElement {
-    if (this.opacity !== undefined || this.color.length > 7) {
+    if (this.showOpacity()) {
       return (
         <div class={ 'input-container' }
              style={ {

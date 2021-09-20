@@ -39,9 +39,9 @@ export namespace Components {
          */
         "maxPresetDisplay": number;
         /**
-          * The starting opacity value form 0 - 100.
+          * Whether opacity is supported on this instance.
          */
-        "opacity": number;
+        "opacity": boolean;
         /**
           * A JSON formatted string of palettes, or an Array if being passed through programmatically. Example of format:
          */
@@ -140,13 +140,9 @@ declare namespace LocalJSX {
          */
         "onColorChange"?: (event: CustomEvent<HSVaColor>) => void;
         /**
-          * Emitted when a preset color palette has been chosen
+          * Whether opacity is supported on this instance.
          */
-        "onPresetPaletteChange"?: (event: CustomEvent<HSVaColor>) => void;
-        /**
-          * The starting opacity value form 0 - 100.
-         */
-        "opacity"?: number;
+        "opacity"?: boolean;
         /**
           * A JSON formatted string of palettes, or an Array if being passed through programmatically. Example of format:
          */
