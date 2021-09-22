@@ -6,7 +6,8 @@
   position: relative;
   cursor: pointer;
   height: 8px;
-  width: 228px;
+  width: 100%;
+  max-width: 200px;
 }
 
 .component-selector {

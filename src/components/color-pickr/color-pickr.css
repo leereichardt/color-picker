@@ -51,7 +51,7 @@ input {
 .palettes-container {
   display: grid;
   gap: 10px;
-  grid-template-columns: repeat(7, 24px);
+  grid-template-columns: repeat(6, 24px);
   grid-auto-rows: minmax(24px, auto);
 }
 

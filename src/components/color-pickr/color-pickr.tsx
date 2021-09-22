@@ -28,7 +28,7 @@ export class ColorPickr {
   /**
    * Whether opacity is supported on this instance.
    */
-  @Prop() opacity: boolean;
+  @Prop() opacity: boolean = false;
 
   /**
    * A JSON formatted string of palettes, or an Array if being passed through programmatically.
@@ -225,7 +225,8 @@ export class ColorPickr {
           }
 
           <div style={ {
-            width: '228px',
+            width: '100%',
+            maxWidth: '200px',
             display: 'flex',
             gap: '12px',
             marginTop: '16px',

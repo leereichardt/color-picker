@@ -11,7 +11,7 @@
 | ------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------- | ----------------- | ----------------- |
 | `color`             | `color`               | The color that is being displayed. This currently **MUST** be in 6 digit hex format                           | `string`          | `undefined`       |
 | `maxPresetDisplay`  | `max-preset-display`  | Max number of preset palettes to display                                                                      | `number`          | `50`              |
-| `opacity`           | `opacity`             | Whether opacity is supported on this instance.                                                                | `boolean`         | `undefined`       |
+| `opacity`           | `opacity`             | Whether opacity is supported on this instance.                                                                | `boolean`         | `false`           |
 | `palettes`          | `palettes`            | A JSON formatted string of palettes, or an Array if being passed through programmatically. Example of format: | `any[] \| string` | `undefined`       |
 | `recentColorsLabel` | `recent-colors-label` | The label that corresponds to the group of palettes for your recent colors                                    | `string`          | `'Recent Colors'` |
 

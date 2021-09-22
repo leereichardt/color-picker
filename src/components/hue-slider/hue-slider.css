@@ -24,7 +24,8 @@
 .component-outer {
   position: relative;
   height: 8px;
-  width: 228px;
+  width: 100%;
+  max-width: 200px;
   cursor: pointer;
 }
 
