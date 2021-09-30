@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State, Listen, Event, EventEmitter, Method } from '@stencil/core';
+import { Component, Host, h, Prop, State, Listen, Event, EventEmitter, Method, ComponentInterface, Watch } from '@stencil/core';
 import { HSVaColor } from "../../utils/HSVaColor";
 import { isValidHex, parseToHSVA } from "../../utils/Color";
 import { numberAsPercent } from "../../utils/Number";
@@ -8,7 +8,7 @@ import { numberAsPercent } from "../../utils/Number";
   styleUrl: 'color-pickr.css',
   shadow: true,
 })
-export class ColorPickr {
+export class ColorPickr implements ComponentInterface {
 
   private currentColor: HSVaColor;
   private colorPalette: HTMLColorPaletteElement;
@@ -25,6 +25,12 @@ export class ColorPickr {
    * The color that is being displayed. This currently **MUST** be in 6 digit hex format
    */
   @Prop() color: string;
+
+  @Watch('color')
+  watchColor(color: string) {
+    this.setColorFromPalette(color);
+  }
+
   /**
    * Whether opacity is supported on this instance.
    */
@@ -56,22 +62,7 @@ export class ColorPickr {
     this.setColor(color);
     this.currentOpacity = numberAsPercent(this.currentColor.alpha);
 
-    let palettes = this.palettes;
-    if (typeof this.palettes === 'string') {
-      try {
-        palettes = JSON.parse(this.palettes);
-      } catch {
-        palettes = [];
-      }
-    }
-
-    if (palettes === undefined) {
-      palettes = [];
-    }
-    if (!Array.isArray(palettes)) {
-      palettes = [palettes];
-    }
-    this.palettesToDisplay = palettes;
+    this.buildPresetPalettes();
   }
 
   @Listen('hueChange')
@@ -145,11 +136,7 @@ export class ColorPickr {
   }
 
   private setPresetPalette = event => {
-    this.setColor(event.target.dataset.color);
-    this.currentOpacity = numberAsPercent(this.currentColor.alpha);
-    this.hueSlider.setHue(this.currentColor.hue);
-    this.colorPalette.setColor(this.currentColor.toHEX().toString());
-    this.setOpacitySlider();
+    this.setColorFromPalette(event.target.dataset.color);
   }
 
   private handleHexInput = event => {
@@ -208,6 +195,34 @@ export class ColorPickr {
         </div>
       );
     }
+  }
+
+  private buildPresetPalettes(): void {
+    let palettes = this.palettes;
+    if (typeof this.palettes === 'string') {
+      try {
+        palettes = JSON.parse(this.palettes);
+      } catch {
+        palettes = [];
+      }
+    }
+
+    if (palettes === undefined) {
+      palettes = [];
+    }
+    if (!Array.isArray(palettes)) {
+      palettes = [palettes];
+    }
+    this.palettesToDisplay = palettes;
+  }
+
+
+  private setColorFromPalette(color: string): void {
+    this.setColor(color);
+    this.currentOpacity = numberAsPercent(this.currentColor.alpha);
+    this.hueSlider.setHue(this.currentColor.hue);
+    this.colorPalette.setColor(this.currentColor.toHEX().toString());
+    this.setOpacitySlider();
   }
 
   render() {
