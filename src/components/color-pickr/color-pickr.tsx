@@ -42,10 +42,15 @@ export class ColorPickr implements ComponentInterface {
    */
   @Prop() palettes: string | Array<any>;
 
+  @Watch('palettes')
+  watchPalettes() {
+    this.buildPresetPalettes();
+  }
+
   /**
    * Max number of preset palettes to display
    */
-  @Prop() maxPresetDisplay: number = 50;
+  @Prop() maxPresetDisplay: number = 12;
 
   /**
    * The label that corresponds to the group of palettes for your recent colors

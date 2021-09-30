@@ -44,7 +44,34 @@
   //   const randomColor = Math.floor(Math.random() * 16777215).toString(16);
   //   c.setAttribute('color', randomColor);
   // }, 2000);
+
   const palettes = [{
+    'label': 'Brand Colors',
+    'palettes': [
+      '#537BDE50',
+      '#5A86F2',
+      '#2C3035',
+      '#748393',
+      '#1B2348',
+      '#EEF3F8',
+      '#C3D5E201',
+      '#59C887',
+      '#51D58D',
+      '#65E399',
+      '#F16564',
+      '#FF616A',
+      '#FF7981CD',
+      '#FABC66',
+      '#FFED00',
+    ]
+  }, {
+    'label': 'Recent Colors',
+    'palettes': [
+      '#FF0000',
+      '#00FF00',
+    ]
+  }];
+  const palettes1 = [{
     'label': 'Brand Colors',
     'palettes': [
       '#537BDE50',
@@ -73,9 +100,41 @@
       '#00FFFF',
       '#FFFF00',
     ]
-  }, {
-    'label': 'Main Colors',
+  }];
+  const palettes2 = [{
+    'label': 'Brand Colors',
     'palettes': [
+      '#537BDE50',
+      '#5A86F2',
+      '#2C3035',
+      '#748393',
+      '#1B2348',
+      '#EEF3F8',
+      '#C3D5E201',
+      '#59C887',
+      '#51D58D',
+      '#65E399',
+      '#F16564',
+      '#FF616A',
+      '#FF7981CD',
+      '#FABC66',
+      '#FFED00',
+    ]
+  }, {
+    'label': 'Recent Colors',
+    'palettes': [
+      '#FF0000',
+      '#00FF00',
+      '#0000FF',
+      '#FF00FF',
+      '#00FFFF',
+      '#FFFF00',
+      '#FF0000',
+      '#00FF00',
+      '#0000FF',
+      '#FF00FF',
+      '#00FFFF',
+      '#FFFF00',
       '#FF0000',
       '#00FF00',
       '#0000FF',
@@ -85,7 +144,13 @@
     ]
   }];
   c.palettes = palettes;
-  c2.palettes = palettes;
+  setTimeout(() => {
+    c.palettes = palettes1;
+  }, 3000);
+  setTimeout(() => {
+    c.palettes = palettes2;
+  }, 6000);
+  // c2.palettes = palettes;
 </script>
 </body>
 </html>
